@@ -20,7 +20,7 @@ public class JwtUtil {
     @Value("${app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationMs}")
+    @Value("${app.jwtExpirationInMs}")
     private Integer jwtExpirationMs;
 
     //* Generate the JWT token
@@ -37,7 +37,7 @@ public class JwtUtil {
             username = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
             return username;
         } catch (Exception e) {
-            log.error("Some error occurred while parsing JWT token");
+            log.error("Some error occurred while parsing JWT token: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
